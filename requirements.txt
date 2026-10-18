@@ -1,0 +1,1 @@
+# Fully offline - standard library only. No dependencies.

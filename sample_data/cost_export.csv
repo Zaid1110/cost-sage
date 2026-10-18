@@ -1,0 +1,12 @@
+resource_id,service,resource_type,region,state,avg_cpu_pct,age_days,attached_to,instance_type,size_gb,monthly_cost_usd,notes
+i-0a1b2c3d4e5f60001,EC2,instance,ap-south-1,running,2.1,210,,t3.large,,67.45,legacy batch worker no longer scheduled
+i-0a1b2c3d4e5f60002,EC2,instance,ap-south-1,running,11.4,180,,t3.xlarge,,134.90,API server
+i-0a1b2c3d4e5f60003,EC2,instance,ap-south-1,running,64.8,95,,c6i.2xlarge,,272.16,well utilized worker
+i-0a1b2c3d4e5f60004,EC2,instance,ap-south-1,stopped,0.0,300,,t3.medium,,0.00,stopped dev box
+vol-0a1b2c3d4e5f70001,EBS,volume,ap-south-1,available,,,,,120,9.60,orphaned data volume
+vol-0a1b2c3d4e5f70002,EBS,volume,ap-south-1,in-use,,,i-0a1b2c3d4e5f60003,,45,3.60,attached root volume
+vol-0a1b2c3d4e5f70003,EBS,volume,ap-south-1,available,,,,,300,30.00,old unattached volume
+snap-0a1b2c3d4e5f80001,EBS,snapshot,ap-south-1,completed,,400,,,,20.00,yearly backup from 2025
+snap-0a1b2c3d4e5f80002,EBS,snapshot,ap-south-1,completed,,25,,,,1.25,recent backup
+i-0a1b2c3d4e5f60005,EC2,instance,us-east-1,running,38.2,60,,m6i.large,,96.60,US region API
+i-0a1b2c3d4e5f60006,RDS,db-instance,ap-south-1,available,4.5,150,,db.t3.medium,,68.00,reporting replica rarely queried

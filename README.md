@@ -1,5 +1,7 @@
 # cost-sage — AWS Cost Advisor
 
+![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Demo: fully offline](https://img.shields.io/badge/demo-fully_offline-orange)
+
 ## What this is
 
 cost-sage reads an AWS Cost Explorer-style CSV export and flags common cloud
@@ -37,6 +39,33 @@ finance asks why the bill doubled — usually months of spend later.
 | Cloud bill reviewed quarterly in a spreadsheet; idle resources billed for months | `python3 cost_sage.py report export.csv` → waste list in seconds |
 | "Are we overspending?" answered with gut feeling | Answered with a ranked savings report: $262.50/mo on the sample data |
 | Cleanup = ad-hoc clicking through the console | Findings map 1:1 to resources (instance/volume/snapshot IDs) for scripting |
+
+## See it in action
+
+**From a raw CSV bill to a savings report**
+
+```text
+$ ./demo.sh
+=== cost-sage demo (offline, synthetic sample data) ===
+
+# cost-sage savings report
+
+Resources scanned : 11
+Findings          : 6
+Total monthly spend: $703.56 (Rs 58,395)
+Potential savings  : $262.50/mo (Rs 21,788/mo)
+
+RESOURCE                     ISSUE                       SAVING/MO  DETAIL
+--------------------------------------------------------------------------------------------------------------
+i-0a1b2c3d4e5f60006          Idle RDS instance              $68.00  Only 4.5% avg CPU (< 5.0%). Consider stopping it when unused or downsizing the instance class.
+i-0a1b2c3d4e5f60001          Idle EC2 instance              $67.45  Running but only 2.1% avg CPU (< 5.0%). Stop it or terminate if it is no longer needed.
+i-0a1b2c3d4e5f60002          Oversized EC2 instance         $67.45  Only 11.4% avg CPU (< 20.0%). Consider downsizing t3.xlarge one size; estimated ~50% saving.
+vol-0a1b2c3d4e5f70003        Unattached EBS volume          $30.00  Volume is not attached to any instance (no attachment). Snapshot and delete if the data is not needed.
+snap-0a1b2c3d4e5f80001       Old EBS snapshot               $20.00  Snapshot is 400 days old (> 90). Verify retention policy, then delete if superseded.
+vol-0a1b2c3d4e5f70001        Unattached EBS volume           $9.60  Volume is not attached to any instance (no attachment). Snapshot and delete if the data is not needed.
+
+Heuristics used: idle = running + avg CPU < 5% | oversized = avg CPU < 20% (~50% saving assumed on downsize) | unattached EBS = state 'available' | old snapshot = age > 90 days. Review each finding before acting - these are signals, not orders.
+```
 
 ## How to run the demo
 
